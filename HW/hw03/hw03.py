@@ -25,6 +25,10 @@ def num_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return 1 if n == 8 else 0
+    else:
+        return num_eights(n // 10) + num_eights(n % 10)
 
 
 def digit_distance(n):
@@ -47,6 +51,10 @@ def digit_distance(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return 0
+    else:
+        return digit_distance(n // 10) + abs(((n // 10) % 10) - (n % 10))
 
 
 def interleaved_sum(n, odd_func, even_func):
@@ -71,6 +79,14 @@ def interleaved_sum(n, odd_func, even_func):
     True
     """
     "*** YOUR CODE HERE ***"
+    def odd_to_n(k, n, odd):
+        if k == n:
+            return odd_func(k) if odd else even_func(k)
+        elif k > n:
+            return 0
+        else:
+            return odd_to_n(k + 1, n, 1 - odd) + (odd_func(k) if odd else even_func(k))
+    return odd_to_n(1, n, 1)
 
 
 def next_smaller_dollar(bill):
@@ -107,6 +123,18 @@ def count_dollars(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    bill = 100
+    def dollars_partition(total, bill):
+        if total == 0:
+            return 1
+        elif total < 0:
+            return 0
+        elif not bill:
+            return 0
+        else:
+            return dollars_partition(total - bill, bill) + \
+                dollars_partition(total, next_smaller_dollar(bill))
+    return dollars_partition(total, bill)
 
 
 def next_larger_dollar(bill):
@@ -143,6 +171,18 @@ def count_dollars_upward(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    bill = 1
+    def dollars_partition(total, bill):
+        if total == 0:
+            return 1
+        elif total < 0:
+            return 0
+        elif not bill:
+            return 0
+        else:
+            return dollars_partition(total - bill, bill) + \
+                dollars_partition(total, next_larger_dollar(bill))
+    return dollars_partition(total, bill)
 
 
 def print_move(origin, destination):
@@ -178,6 +218,13 @@ def move_stack(n, start, end):
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
+    mid = 6 - start - end
+    if n == 1:
+        print_move(start, end)
+    else:
+        move_stack(n - 1, start, mid)
+        print_move(start, end)
+        move_stack(n - 1, mid, end)
 
 
 from operator import sub, mul
@@ -193,5 +240,5 @@ def make_anonymous_factorial():
     ...     ['Assign', 'AnnAssign', 'AugAssign', 'NamedExpr', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
+    return "IDK"
 
